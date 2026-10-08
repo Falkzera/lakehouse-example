@@ -40,6 +40,7 @@ cd dbt && dbt build --profiles-dir .        # só o dbt; sem LAKEHOUSE definida,
 - A bronze nunca sobrescreve. A silver lê só o lote mais recente, pelas views de `dbt/models/1_bronze`.
 - Dinheiro em `DECIMAL`. A gold não carrega nome nem e-mail.
 - `resultados/` é versionado e tem que ser determinístico. Rodar o pipeline sem mudar regra não pode alterar nenhum arquivo dali.
+- Git: trabalho em `feature/*` (ou `fix/*`, `docs/*`...) com PR e squash merge na `main`, que é protegida pelo check "Pipeline e testes". Conventional Commits.
 
 ## Gotchas
 
@@ -52,3 +53,8 @@ cd dbt && dbt build --profiles-dir .        # só o dbt; sem LAKEHOUSE definida,
 ## Documentação por pasta (agent.md)
 
 `pipeline/` e `dbt/` têm um `agent.md` cada, com o propósito da pasta, os arquivos e as decisões locais. Antes de mexer numa delas, leia o `agent.md`. Ao terminar uma mudança significativa (arquivo novo, regra nova, decisão de arquitetura), atualize-o. Pasta nova com código ganha o seu.
+
+## Pendências
+
+- Lakehouse no S3, trocando só os caminhos de `pipeline/config.py` e do `profiles.yml`.
+- Silver em PySpark no Databricks, gravando em Delta Lake.
