@@ -9,20 +9,29 @@ Lakehouse medallion local, de demonstração e público. CSVs sintéticos e sujo
 | Peça | Versão (fixada em `requirements.txt`) |
 |---|---|
 | Python | 3.14 |
-| pandas | 3.0.6 |
+| pandas, pyarrow | 3.0.6, 25.0.1 |
+| pytest | 9.1.1 |
 
 ## Comandos
 
 ```bash
 python pipeline/gerar_dados.py              # fonte suja em lakehouse/0_landing
+python pipeline/run.py                      # bronze
+pytest                                      # testes do Python
 ```
 
 ## Estrutura
 
 | Pasta | Conteúdo |
 |---|---|
-| `pipeline/` | Python: geração da fonte |
+| `pipeline/` | Python: geração da fonte, ingestão na bronze e orquestração |
+| `tests/` | pytest |
 | `lakehouse/` | dados gerados, fora do git |
+
+## Regras
+
+- Transformação só em SQL, no dbt. O Python carrega e exporta, nada mais.
+- A bronze nunca sobrescreve.
 
 ## Documentação por pasta (agent.md)
 
