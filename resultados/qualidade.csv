@@ -1,0 +1,12 @@
+﻿indicador;linhas
+clientes_bronze;315
+clientes_silver;300
+vendas_bronze;5120
+vendas_duplicadas;120
+vendas_quarentena;530
+vendas_silver;4470
+motivo_quantidade_invalida;163
+motivo_cliente_inexistente;161
+motivo_preco_invalido;99
+motivo_data_invalida;93
+motivo_preco_outlier;36

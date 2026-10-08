@@ -1,4 +1,4 @@
-"""Caminhos do projeto: as camadas do lakehouse e o projeto dbt."""
+"""Caminhos do projeto: as camadas do lakehouse, o projeto dbt e a pasta de resultados."""
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
@@ -8,3 +8,4 @@ BRONZE = LAKEHOUSE / "1_bronze"
 SILVER = LAKEHOUSE / "2_silver"
 GOLD = LAKEHOUSE / "3_gold"
 DBT = RAIZ / "dbt"
+RESULTADOS = RAIZ / "resultados"

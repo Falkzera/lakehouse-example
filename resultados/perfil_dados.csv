@@ -1,0 +1,27 @@
+﻿camada;tabela;coluna;tipo;minimo;maximo;distintos;linhas;pct_nulos
+bronze;clientes;id_cliente;VARCHAR; c0003;C0300;300;315;0,0
+bronze;clientes;nome;VARCHAR; Ana Araújo ;rafael souza;213;315;0,0
+bronze;clientes;email;VARCHAR;;rafael.silva75@email.com;291;315;0,0
+bronze;clientes;uf;VARCHAR;;sp;30;315;0,0
+bronze;clientes;data_cadastro;VARCHAR;01-02-2024;31/10/2023;289;315;0,0
+silver;clientes;id_cliente;VARCHAR;C0001;C0300;300;300;0,0
+silver;clientes;nome;VARCHAR;Ana Araújo;Rafael Souza;77;300;0,0
+silver;clientes;email;VARCHAR;ana.araujo139@email.com;rafael.silva75@email.com;278;300;7,3
+silver;clientes;uf;VARCHAR;AL;SP;6;300;3,3
+silver;clientes;data_cadastro;DATE;2023-01-01;2024-12-01;247;300;0,0
+bronze;vendas;id_venda;VARCHAR;1;999;5000;5120;0,0
+bronze;vendas;data_venda;VARCHAR;;null;2202;5120;0,0
+bronze;vendas;id_cliente;VARCHAR;C0001;C0310;310;5120;0,0
+bronze;vendas;produto;VARCHAR; Cadeira ;tênis;40;5120;0,0
+bronze;vendas;categoria;VARCHAR;ELETRÔNICOS;vestuario;12;5120;0,0
+bronze;vendas;quantidade;VARCHAR;;dois;9;5120;0,0
+bronze;vendas;preco_unitario;VARCHAR;;null;4215;5120;0,0
+bronze;vendas;status;VARCHAR; cancelado ;pendente  ;12;5120;0,0
+silver;vendas;id_venda;INTEGER;1;5000;4470;4470;0,0
+silver;vendas;data_venda;DATE;2025-01-01;2026-09-30;638;4470;0,0
+silver;vendas;id_cliente;VARCHAR;C0001;C0300;300;4470;0,0
+silver;vendas;produto;VARCHAR;Cadeira;Tênis;8;4470;0,0
+silver;vendas;categoria;VARCHAR;Eletrônicos;Vestuário;4;4470;0,0
+silver;vendas;quantidade;INTEGER;1;5;5;4470;0,0
+silver;vendas;preco_unitario;DECIMAL(12,2);42.54;4024.67;3748;4470;0,0
+silver;vendas;status;VARCHAR;cancelado;pendente;3;4470;0,0
