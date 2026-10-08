@@ -1,13 +1,13 @@
 # pipeline · agent.md
 
 ## Propósito
-A parte em Python do pipeline. Gera a fonte e grava a bronze. Nenhuma regra de limpeza mora aqui.
+A parte em Python do pipeline. Gera a fonte, grava a bronze e chama o dbt. Nenhuma regra de limpeza mora aqui; isso é do `dbt/`.
 
 ## Arquivos
 - `config.py` · todos os caminhos do projeto. Mudou pasta, muda só aqui.
 - `gerar_dados.py` · simula o sistema de origem. Semente fixa (42), então gera sempre os mesmos CSVs.
 - `bronze.py` · lê cada CSV da landing como texto puro e grava um parquet por carga, com `_arquivo_origem`, `_lote` e `_linha`.
-- `run.py` · orquestra. Roda a bronze.
+- `run.py` · orquestra. Roda a bronze e chama `dbt build` pelo `dbtRunner`.
 
 ## Padrões
 - Cada camada expõe uma função `executar()`.

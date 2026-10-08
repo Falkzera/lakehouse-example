@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Parquets gravados pelo pipeline/bronze.py, um por carga, tudo como texto.
+    meta:
+      external_location: "read_parquet('{{ env_var('LAKEHOUSE', '../lakehouse') }}/1_bronze/{name}/*.parquet', union_by_name = true)"  # cargas antigas podem ter menos colunas
+    tables:
+      - name: clientes
+      - name: vendas
+
+models:
+  - name: bronze_clientes
+    description: Lote mais recente de clientes, exatamente como chegou.
+  - name: bronze_vendas
+    description: Lote mais recente de vendas, exatamente como chegou.

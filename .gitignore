@@ -6,3 +6,8 @@ __pycache__/
 
 # dados: tudo no lakehouse é gerado pelo pipeline (python pipeline/gerar_dados.py && python pipeline/run.py)
 lakehouse/
+
+# artefatos do dbt
+dbt/target/
+dbt/logs/
+dbt/.user.yml

@@ -1,0 +1,8 @@
+name: lakehouse
+version: "1.0"
+profile: lakehouse
+
+models:
+  lakehouse:
+    1_bronze:
+      +materialized: view      # só aponta para o lote mais recente; quem grava a bronze é o pipeline/bronze.py
