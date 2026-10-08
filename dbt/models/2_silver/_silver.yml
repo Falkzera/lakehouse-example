@@ -12,21 +12,40 @@ models:
               arguments:
                 values: [SP, RJ, MG, AL, BA, PE]
 
+  - name: vendas_padronizadas
+    description: Vendas tipadas e sem duplicata, com o motivo de reprovação. Alimenta vendas e quarentena_vendas.
+
   - name: vendas
-    description: Vendas tipadas, padronizadas e sem duplicata.
+    description: Vendas que passaram em todas as regras de qualidade.
     columns:
       - name: id_venda
         data_tests: [unique, not_null]
+      - name: data_venda
+        data_tests: [not_null]
+      - name: categoria
+        data_tests: [not_null]
       - name: status
         data_tests:
           - accepted_values:
               arguments:
                 values: [pago, cancelado, pendente]
+      - name: id_cliente
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('clientes')
+                field: id_cliente
+
+  - name: quarentena_vendas
+    description: Vendas reprovadas, com o motivo. Nada é apagado.
+    columns:
+      - name: motivo
+        data_tests: [not_null]
 
 unit_tests:
   - name: limpeza_entende_todos_os_formatos_sujos
     description: O mesmo dado escrito de jeitos diferentes vira um valor só, e a duplicata sai.
-    model: vendas
+    model: vendas_padronizadas
     given:
       - input: ref('bronze_vendas')
         rows:
@@ -37,11 +56,45 @@ unit_tests:
       - input: ref('dominio_categoria')
         rows:
           - {chave: ELETRONICOS, categoria: Eletrônicos}
+      - input: ref('clientes')
+        rows:
+          - {id_cliente: C0001}
     expect:
       rows:
-        - {id_venda: 1, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago}
-        - {id_venda: 2, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago}
-        - {id_venda: 3, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago}
+        - {id_venda: 1, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago, motivo: null}
+        - {id_venda: 2, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago, motivo: null}
+        - {id_venda: 3, data_venda: 2025-12-31, id_cliente: C0001, produto: Notebook, categoria: Eletrônicos, quantidade: 2, preco_unitario: 3500.90, status: pago, motivo: null}
+
+  - name: regras_de_qualidade_apontam_cada_motivo
+    description: Cada linha reprovada diz por quê, e uma linha com dois problemas mostra os dois.
+    model: vendas_padronizadas
+    given:
+      - input: ref('bronze_vendas')
+        rows:
+          - {id_venda: "1", data_venda: "31/02/2025", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 2}
+          - {id_venda: "2", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "dois", preco_unitario: "50", status: "pago", _linha: 3}
+          - {id_venda: "3", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "N/A", status: "pago", _linha: 4}
+          - {id_venda: "4", data_venda: "2025-01-10", id_cliente: "C9999", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 5}
+          - {id_venda: "5", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "brinquedos", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 6}
+          - {id_venda: "6", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "0", preco_unitario: "-", status: "pago", _linha: 7}
+          - {id_venda: "7", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "5000", status: "pago", _linha: 8}
+          - {id_venda: "8", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 9}
+      - input: ref('dominio_categoria')
+        rows:
+          - {chave: LIVROS, categoria: Livros}
+      - input: ref('clientes')
+        rows:
+          - {id_cliente: C0001}
+    expect:
+      rows:
+        - {id_venda: 1, motivo: data_invalida}
+        - {id_venda: 2, motivo: quantidade_invalida}
+        - {id_venda: 3, motivo: preco_invalido}
+        - {id_venda: 4, motivo: cliente_inexistente}
+        - {id_venda: 5, motivo: categoria_invalida}
+        - {id_venda: 6, motivo: quantidade_invalida;preco_invalido}
+        - {id_venda: 7, motivo: preco_outlier}
+        - {id_venda: 8, motivo: null}
 
   - name: clientes_padroniza_uf_nome_e_email
     description: UF por extenso vira sigla, nome ganha maiúscula, e-mail inválido vira nulo, e a duplicata sai.
