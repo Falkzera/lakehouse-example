@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: fato_vendas
+    description: Uma linha por venda válida, ligada às três dimensões.
+    columns:
+      - name: id_venda
+        data_tests: [unique, not_null]
+      - name: data_venda
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_calendario'), field: data}
+      - name: id_cliente
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_cliente'), field: id_cliente}
+      - name: produto
+        data_tests:
+          - relationships:
+              arguments: {to: ref('dim_produto'), field: produto}
+
+  - name: dim_cliente
+    description: Cliente sem nome nem e-mail. A gold não carrega dado pessoal direto.
+    columns:
+      - name: id_cliente
+        data_tests: [unique, not_null]
+
+  - name: dim_produto
+    columns:
+      - name: produto
+        data_tests: [unique, not_null]
+
+  - name: dim_calendario
+    columns:
+      - name: data
+        data_tests: [unique, not_null]
+
+  - name: receita_mensal
+    columns:
+      - name: ano_mes
+        data_tests: [unique]

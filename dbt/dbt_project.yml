@@ -8,3 +8,5 @@ models:
       +materialized: view      # só aponta para o lote mais recente; quem grava a bronze é o pipeline/bronze.py
     2_silver:
       +materialized: external  # parquet em lakehouse/2_silver (ver macros/external_location.sql)
+    3_gold:
+      +materialized: external  # parquet em lakehouse/3_gold

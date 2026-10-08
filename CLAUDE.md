@@ -28,7 +28,7 @@ cd dbt && dbt build --profiles-dir .        # só o dbt; sem LAKEHOUSE definida,
 | Pasta | Conteúdo |
 |---|---|
 | `pipeline/` | Python: geração da fonte, ingestão na bronze e orquestração |
-| `dbt/` | SQL: views da bronze, modelos da silver, macros, seeds de domínio e testes |
+| `dbt/` | SQL: views da bronze, modelos da silver e da gold, macros, seeds de domínio e testes |
 | `tests/` | pytest |
 | `lakehouse/` | dados gerados, fora do git |
 
@@ -37,12 +37,12 @@ cd dbt && dbt build --profiles-dir .        # só o dbt; sem LAKEHOUSE definida,
 - Transformação só em SQL, no dbt. O Python carrega e exporta, nada mais.
 - Função de limpeza nova vira macro em `dbt/macros/limpeza.sql` e ganha caso no teste unitário de `dbt/models/2_silver/_silver.yml`.
 - A bronze nunca sobrescreve. A silver lê só o lote mais recente, pelas views de `dbt/models/1_bronze`.
-- Dinheiro em `DECIMAL`.
+- Dinheiro em `DECIMAL`. A gold não carrega nome nem e-mail.
 
 ## Gotchas
 
 - `profiles.yml` cai em `../lakehouse` quando `LAKEHOUSE` não está definida. Rode o dbt de dentro de `dbt/` ou pelo `run.py`, que define o caminho absoluto.
-- O dbt não cria pasta. O `run.py` cria `2_silver` antes do build.
+- O dbt não cria pasta. O `run.py` cria `2_silver` e `3_gold` antes do build.
 - `macros/external_location.sql` sobrescreve a macro do dbt-duckdb para gravar cada modelo na pasta da camada (`model.fqn[1]`).
 - O `SUMMARIZE` do DuckDB é aproximado e muda entre execuções. O perfil usa a macro `perfilar`, que é exata.
 - O DuckDB não tem `initcap`. Use a macro `capitalizar`.
