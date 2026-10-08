@@ -3,3 +3,6 @@
 __pycache__/
 .pytest_cache/
 .DS_Store
+
+# dados: tudo no lakehouse é gerado pelo pipeline (python pipeline/gerar_dados.py)
+lakehouse/
