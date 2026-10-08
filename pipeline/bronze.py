@@ -7,7 +7,7 @@ from config import BRONZE, LANDING, RAIZ
 
 
 def executar():
-    lote = datetime.now().strftime("%Y%m%d_%H%M%S")
+    lote = datetime.now().strftime("%Y%m%d_%H%M%S_%f")  # com microssegundos: duas cargas nunca caem no mesmo arquivo
     for csv in sorted(LANDING.glob("*.csv")):
         df = pd.read_csv(csv, sep=";", dtype=str, keep_default_na=False)  # nada é interpretado
         df["_arquivo_origem"], df["_lote"] = csv.name, lote

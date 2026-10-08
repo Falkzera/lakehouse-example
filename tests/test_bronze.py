@@ -1,10 +1,10 @@
-"""A bronze guarda o dado exatamente como chegou."""
+"""A bronze guarda o dado exatamente como chegou e nunca sobrescreve uma carga."""
 import pandas as pd
 
 import bronze
 
 
-def test_bronze_guarda_texto_cru(tmp_path, monkeypatch):
+def test_bronze_guarda_texto_cru_e_acumula_cargas(tmp_path, monkeypatch):
     landing = tmp_path / "landing"
     landing.mkdir()
     (landing / "vendas.csv").write_text("id_venda;preco;status\n1;R$ 1.234,56; pago \n2;N/A;\n", encoding="utf-8")
@@ -13,9 +13,10 @@ def test_bronze_guarda_texto_cru(tmp_path, monkeypatch):
     monkeypatch.setattr(bronze, "RAIZ", tmp_path)
 
     bronze.executar()
+    bronze.executar()
 
     cargas = sorted((tmp_path / "bronze" / "vendas").glob("*.parquet"))
-    assert len(cargas) == 1
+    assert len(cargas) == 2  # a segunda carga não apaga a primeira
     lote = pd.read_parquet(cargas[0])
     assert lote["preco"].tolist() == ["R$ 1.234,56", "N/A"]  # nada é convertido nem limpo
     assert lote["status"].tolist() == [" pago ", ""]

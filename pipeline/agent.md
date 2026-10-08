@@ -15,6 +15,7 @@ A parte em Python do pipeline. Gera a fonte e grava a bronze. Nenhuma regra de l
 
 ## Decisões recentes
 - 2026-10-08: silver e gold em SQL, no dbt, e não em pandas. Aqui fica só carga e exportação.
+- 2026-10-08: o nome do lote ganhou microssegundos, porque duas cargas no mesmo segundo gravavam no mesmo arquivo.
 
 ## Pendências conhecidas
 - Nenhuma.
