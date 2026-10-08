@@ -44,6 +44,7 @@ cd dbt && dbt build --profiles-dir .        # só o dbt; sem LAKEHOUSE definida,
 - `profiles.yml` cai em `../lakehouse` quando `LAKEHOUSE` não está definida. Rode o dbt de dentro de `dbt/` ou pelo `run.py`, que define o caminho absoluto.
 - O dbt não cria pasta. O `run.py` cria `2_silver` antes do build.
 - `macros/external_location.sql` sobrescreve a macro do dbt-duckdb para gravar cada modelo na pasta da camada (`model.fqn[1]`).
+- O `SUMMARIZE` do DuckDB é aproximado e muda entre execuções. O perfil usa a macro `perfilar`, que é exata.
 - O DuckDB não tem `initcap`. Use a macro `capitalizar`.
 
 ## Documentação por pasta (agent.md)

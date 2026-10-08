@@ -42,6 +42,12 @@ models:
       - name: motivo
         data_tests: [not_null]
 
+  - name: perfil_dados
+    description: Perfil de cada coluna (tipo, mínimo, máximo, distintos, nulos) na bronze e na silver.
+
+  - name: qualidade
+    description: Placar da limpeza, com linhas de entrada, de saída e cada motivo de reprovação.
+
 unit_tests:
   - name: limpeza_entende_todos_os_formatos_sujos
     description: O mesmo dado escrito de jeitos diferentes vira um valor só, e a duplicata sai.
