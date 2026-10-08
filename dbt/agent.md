@@ -1,15 +1,22 @@
 # dbt · agent.md
 
 ## Propósito
-Projeto dbt com o adaptador DuckDB. Expõe a bronze em SQL, com views do lote mais recente.
+Projeto dbt com o adaptador DuckDB. Transforma a bronze em silver, em SQL, e testa tudo. Os modelos da silver são `external`: viram parquet em `lakehouse/2_silver`, e o `lakehouse/catalogo.duckdb` guarda views que apontam para eles.
 
 ## Arquivos
-- `dbt_project.yml` · materialização por pasta (bronze em view).
+- `dbt_project.yml` · materialização por pasta (bronze em view, silver em parquet).
 - `profiles.yml` · DuckDB em `$LAKEHOUSE/catalogo.duckdb`, com `../lakehouse` como padrão.
 - `models/1_bronze/` · a source (todos os parquet da bronze, com `union_by_name`) e as views do lote mais recente.
+- `models/2_silver/` · `clientes` e `vendas`. Os testes unitários e de dados ficam em `_silver.yml`.
+- `macros/limpeza.sql` · `limpar`, `chave`, `capitalizar`, `para_data`, `para_valor`.
+- `macros/external_location.sql` · grava cada modelo na pasta da sua camada.
+- `seeds/` · domínios válidos de UF e de categoria.
 
 ## Padrões
 - Todo modelo começa com um comentário de uma linha dizendo o que entrega.
+
+## Decisões recentes
+- 2026-10-08: views da bronze, e não uma macro de "último lote", para os testes unitários terem a origem tipada e o grafo de linhagem mostrar a bronze.
 
 ## Pendências conhecidas
 - Nenhuma.

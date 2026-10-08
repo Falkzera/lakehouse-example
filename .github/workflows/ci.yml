@@ -29,5 +29,5 @@ jobs:
         run: pytest
       - name: Gera a fonte suja
         run: python pipeline/gerar_dados.py
-      - name: Ingestão na bronze
+      - name: Pipeline completo, com os testes do dbt
         run: python pipeline/run.py
