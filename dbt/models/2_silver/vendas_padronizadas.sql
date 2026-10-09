@@ -27,7 +27,9 @@ select
         case when quantidade is null or quantidade <= 0 then 'quantidade_invalida' end,
         case when preco_unitario is null or preco_unitario <= 0 then 'preco_invalido' end,
         case when preco_unitario > 5 * median(preco_unitario) over (partition by produto) then 'preco_outlier' end,
+        case when produto is null then 'produto_invalido' end,
         case when categoria is null then 'categoria_invalida' end,
-        case when not cliente_existe then 'cliente_inexistente' end
+        case when not cliente_existe then 'cliente_inexistente' end,
+        case when status is null or status not in ('pago', 'cancelado', 'pendente') then 'status_invalido' end
     ), '') as motivo
 from tipado
