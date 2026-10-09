@@ -22,6 +22,8 @@ models:
         data_tests: [unique, not_null]
       - name: data_venda
         data_tests: [not_null]
+      - name: produto
+        data_tests: [not_null]
       - name: categoria
         data_tests: [not_null]
       - name: quantidade
@@ -91,6 +93,9 @@ unit_tests:
           - {id_venda: "6", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "0", preco_unitario: "-", status: "pago", _linha: 7}
           - {id_venda: "7", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "5000", status: "pago", _linha: 8}
           - {id_venda: "8", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 9}
+          - {id_venda: "9", data_venda: "2025-01-10", id_cliente: "C0001", produto: "", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "pago", _linha: 10}
+          - {id_venda: "10", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "estornado", _linha: 11}
+          - {id_venda: "11", data_venda: "2025-01-10", id_cliente: "C0001", produto: "Livro", categoria: "Livros", quantidade: "1", preco_unitario: "50", status: "", _linha: 12}
       - input: ref('dominio_categoria')
         rows:
           - {chave: LIVROS, categoria: Livros}
@@ -107,6 +112,9 @@ unit_tests:
         - {id_venda: 6, motivo: quantidade_invalida;preco_invalido}
         - {id_venda: 7, motivo: preco_outlier}
         - {id_venda: 8, motivo: null}
+        - {id_venda: 9, motivo: produto_invalido}
+        - {id_venda: 10, motivo: status_invalido}
+        - {id_venda: 11, motivo: status_invalido}
 
   - name: clientes_padroniza_uf_nome_e_email
     description: UF por extenso vira sigla, nome ganha maiúscula, e-mail inválido vira nulo, e a duplicata sai.

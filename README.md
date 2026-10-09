@@ -62,6 +62,7 @@ dbt docs generate --profiles-dir . && dbt docs serve --profiles-dir .
 | e-mail sem `@` | nulo |
 | linhas repetidas e o mesmo código escrito como `c0001` e `C0001` | uma linha por chave normalizada |
 | venda de cliente que não está no cadastro | quarentena |
+| status fora de `pago`, `cancelado` e `pendente`, ou venda sem produto | quarentena |
 | preço 100 vezes maior por erro de digitação | quarentena quando passa de 5 vezes a mediana do produto |
 
 O perfil (`resultados/perfil_dados.csv`) mede cada coluna antes e depois. O efeito da padronização aparece na contagem de valores distintos.
@@ -82,7 +83,7 @@ O placar (`resultados/qualidade.csv`) mostra o caminho das 5.120 vendas. Saem 12
 | Tipo | Quantos | O que garante |
 |---|---|---|
 | Testes unitários do dbt | 3 | as macros de limpeza e as regras de quarentena, com dado sujo inventado e a saída esperada |
-| Testes de dados do dbt | 26 | chave única, nulos, valores aceitos e relação entre a fato e cada dimensão |
+| Testes de dados do dbt | 27 | chave única, nulos, valores aceitos e relação entre a fato e cada dimensão |
 | Testes SQL próprios | 2 | nenhuma venda com quantidade ou preço menor ou igual a zero na silver, e as receitas mensal, por categoria e por UF somando o mesmo que os pedidos pagos da fato |
 | pytest | 1 | a bronze guarda o texto exatamente como veio e uma carga nova não apaga a anterior |
 

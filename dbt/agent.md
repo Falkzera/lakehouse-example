@@ -25,6 +25,7 @@ Projeto dbt com o adaptador DuckDB. Transforma a bronze em silver e gold, em SQL
 ## Decisões recentes
 - 2026-10-08: views da bronze, e não uma macro de "último lote", para os testes unitários terem a origem tipada e o grafo de linhagem mostrar a bronze.
 - 2026-10-08: perfil por macro própria, e não pelo `SUMMARIZE`, que é aproximado na contagem de distintos e muda a cada execução.
+- 2026-10-09: status fora do domínio ou vazio e venda sem produto vão para a quarentena, como as outras regras, e não param o build. Os testes dessas colunas em `_silver.yml` ficam como trava, caso uma regra mude.
 
 ## Pendências conhecidas
 - Nenhuma.
