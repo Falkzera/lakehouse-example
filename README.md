@@ -82,7 +82,7 @@ O placar (`resultados/qualidade.csv`) mostra o caminho das 5.120 vendas. Saem 12
 | Tipo | Quantos | O que garante |
 |---|---|---|
 | Testes unitários do dbt | 3 | as macros de limpeza e as regras de quarentena, com dado sujo inventado e a saída esperada |
-| Testes de dados do dbt | 22 | chave única, nulos, valores aceitos e relação entre a fato e cada dimensão |
+| Testes de dados do dbt | 26 | chave única, nulos, valores aceitos e relação entre a fato e cada dimensão |
 | Testes SQL próprios | 2 | nenhuma venda com quantidade ou preço menor ou igual a zero na silver, e as receitas mensal, por categoria e por UF somando o mesmo que os pedidos pagos da fato |
 | pytest | 1 | a bronze guarda o texto exatamente como veio e uma carga nova não apaga a anterior |
 
