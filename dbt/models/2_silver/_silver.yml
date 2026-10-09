@@ -24,13 +24,19 @@ models:
         data_tests: [not_null]
       - name: categoria
         data_tests: [not_null]
+      - name: quantidade
+        data_tests: [not_null]
+      - name: preco_unitario
+        data_tests: [not_null]
       - name: status
         data_tests:
+          - not_null
           - accepted_values:
               arguments:
                 values: [pago, cancelado, pendente]
       - name: id_cliente
         data_tests:
+          - not_null
           - relationships:
               arguments:
                 to: ref('clientes')
