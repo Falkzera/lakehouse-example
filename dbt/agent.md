@@ -19,6 +19,7 @@ Projeto dbt com o adaptador DuckDB. Transforma a bronze em silver e gold, em SQL
 - Todo modelo começa com um comentário de uma linha dizendo o que entrega.
 - Regra de qualidade nova entra no `concat_ws` de `vendas_padronizadas.sql` e ganha linha no teste unitário `regras_de_qualidade_apontam_cada_motivo`.
 - Agregação nova na gold entra na reconciliação de `tests/gold_reconcilia_com_fato.sql`.
+- Teste SQL que compara totais usa `is distinct from`, porque `!=` com nulo nunca reprova.
 
 ## Decisões recentes
 - 2026-10-08: views da bronze, e não uma macro de "último lote", para os testes unitários terem a origem tipada e o grafo de linhagem mostrar a bronze.

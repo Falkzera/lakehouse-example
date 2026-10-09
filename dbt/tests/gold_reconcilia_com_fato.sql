@@ -6,4 +6,6 @@ with totais as (
         (select sum(receita) from {{ ref('receita_categoria') }})                  as categoria,
         (select sum(receita) from {{ ref('receita_uf') }})                         as uf
 )
-select * from totais where mensal != fato or categoria != fato or uf != fato
+-- is distinct from, e não !=, porque a soma de uma tabela vazia é nula e != com nulo nunca reprova
+select * from totais
+where mensal is distinct from fato or categoria is distinct from fato or uf is distinct from fato
